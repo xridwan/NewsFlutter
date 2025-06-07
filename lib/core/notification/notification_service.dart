@@ -16,8 +16,6 @@ class NotificationService {
   Future<void> initialized() async {
     if (_isInitialized) return;
 
-    print('[NOTIF] Initializing...');
-
     await initializeTimezone();
 
     const iniSettingsAndroid = AndroidInitializationSettings(
@@ -37,8 +35,6 @@ class NotificationService {
 
     await flutterLocalNotificationsPlugin.initialize(initSettings);
     _isInitialized = true;
-
-    print('[NOTIF] Initialized successfully');
   }
 
   NotificationDetails notificationDetails() {
@@ -56,7 +52,6 @@ class NotificationService {
 
   Future<void> scheduleDailyNotification() async {
     final scheduledTime = _nextInstanceOfEightAM();
-    print('[NOTIF] Scheduling for: $scheduledTime');
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       0,
@@ -64,7 +59,8 @@ class NotificationService {
       'Let\'s read new today!',
       scheduledTime,
       notificationDetails(),
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
       payload: 'daily_notification',
@@ -86,14 +82,14 @@ class NotificationService {
 
   tz.TZDateTime _nextInstanceOfEightAM() {
     final now = tz.TZDateTime.now(tz.local);
-    return now.add(const Duration(seconds: 10));
+    // return now.add(const Duration(seconds: 10));
     final scheduledTime = tz.TZDateTime(
       tz.local,
-      2025,
-      6,
-      6,
-      18,
-      43,
+      now.year,
+      now.month,
+      now.day,
+      8,
+      0,
     );
     return scheduledTime.isBefore(now)
         ? scheduledTime.add(const Duration(days: 1))
