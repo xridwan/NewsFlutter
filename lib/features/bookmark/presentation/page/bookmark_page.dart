@@ -45,11 +45,17 @@ class BookmarkPage extends StatelessWidget {
                           final bookmark = state.bookmarks[index];
                           return BookmarkItemWidget(
                             bookmark: bookmark,
-                            navigateToDetail: () {
-                              context.push(
+                            navigateToDetail: () async {
+                              final result = await context.push(
                                 NavigationRoute.detailPage,
                                 extra: bookmark.toArticle(),
                               );
+
+                              if (result == true && context.mounted) {
+                                context.read<BookmarkBloc>().add(
+                                  GetBookmarks(),
+                                );
+                              }
                             },
                           );
                         },

@@ -19,7 +19,7 @@ class DetailPage extends StatelessWidget {
           SliverAppBar(
             leading: IconButton(
               onPressed: () {
-                context.pop();
+                context.pop(true);
               },
               icon: Icon(Icons.arrow_back_ios, color: Colors.white),
             ),

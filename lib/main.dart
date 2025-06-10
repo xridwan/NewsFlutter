@@ -6,6 +6,7 @@ import 'package:news_app/features/settings/presentation/bloc/notification_event.
 
 import 'core/notification/notification_service.dart';
 import 'features/articles/presenter/bloc/article_bloc.dart';
+import 'features/bookmark/presentation/bloc/bookmark_action_cubit.dart';
 import 'features/bookmark/presentation/bloc/bookmark_bloc.dart';
 import 'features/settings/data/notification_preferences.dart';
 import 'features/settings/presentation/bloc/notification_bloc.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
         BlocProvider(create: (context) => sl<SourceBloc>()..add(GetSources())),
         BlocProvider(create: (context) => sl<ArticleBloc>()),
         BlocProvider(create: (context) => sl<BookmarkBloc>()),
+        BlocProvider(create: (context) => sl<BookmarkActionCubit>()),
         BlocProvider(create: (context) => sl<SearchVisibilyBloc>()),
         BlocProvider(
           create: (context) =>

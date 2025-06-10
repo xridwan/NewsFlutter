@@ -17,6 +17,7 @@ import '../features/articles/presenter/bloc/article_bloc.dart';
 import '../features/bookmark/data/repository/bookmark_repository_impl.dart';
 import '../features/bookmark/domain/repository/bookmark_repository.dart';
 import '../features/bookmark/domain/usecase/get_bookmarks_usecase.dart';
+import '../features/bookmark/presentation/bloc/bookmark_action_cubit.dart';
 import '../features/settings/data/notification_preferences.dart';
 import '../features/settings/presentation/bloc/notification_bloc.dart';
 import '../features/sources/data/datasource/source_remote_datasource.dart';
@@ -29,7 +30,6 @@ import '../features/sources/presentation/widget/bloc/search/search_visibility_bl
 final sl = GetIt.instance;
 
 Future<void> setupLocator() async {
-
   // Notification
   sl.registerLazySingleton(() => NotificationService());
   await sl<NotificationService>().initialized();
@@ -86,7 +86,8 @@ Future<void> setupLocator() async {
   // Bloc
   sl.registerFactory(() => SourceBloc(sl()));
   sl.registerFactory(() => ArticleBloc(sl()));
-  sl.registerFactory(() => BookmarkBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => BookmarkBloc(sl()));
+  sl.registerFactory(() => BookmarkActionCubit(sl(), sl(), sl()));
   sl.registerFactory(() => SearchVisibilyBloc());
   sl.registerFactory(() => NotificationBloc(sl(), sl()));
 }

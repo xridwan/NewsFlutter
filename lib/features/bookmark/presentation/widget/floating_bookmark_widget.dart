@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/bookmark/domain/model/bookmark.dart';
-import 'package:news_app/features/bookmark/presentation/bloc/bookmark_bloc.dart';
+import 'package:news_app/features/bookmark/presentation/bloc/bookmark_action_cubit.dart';
 
-import '../bloc/bookmark_event.dart';
 import '../bloc/bookmark_state.dart';
 
 class FloatingBookmarkWidget extends StatelessWidget {
@@ -14,27 +13,27 @@ class FloatingBookmarkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<BookmarkBloc>().add(IsBookmarked(bookmark.title));
+      context.read<BookmarkActionCubit>().isBookmarked(bookmark.title);
     });
-    return BlocSelector<BookmarkBloc, BookmarkState, bool>(
-      selector: (state) {
-        if (state is BookmarkChecked) {
-          return state.isBookmarked;
-        }
-        return false;
-      },
+    return BlocBuilder<BookmarkActionCubit, BookmarkState>(
       builder: (context, state) {
+        bool isBookmark = false;
+        if (state is BookmarkChecked) {
+          isBookmark = state.isBookmarked;
+        }
         return FloatingActionButton(
           onPressed: () {
-            if (state) {
-              context.read<BookmarkBloc>().add(RemoveBookmark(bookmark.title));
+            if (!isBookmark) {
+              context.read<BookmarkActionCubit>().addBookmark(bookmark);
             } else {
-              context.read<BookmarkBloc>().add(AddBookmark(bookmark));
+              context.read<BookmarkActionCubit>().removeBookmark(
+                bookmark.title,
+              );
             }
           },
           backgroundColor: Colors.grey[800],
           child: Icon(
-            state ? Icons.bookmark : Icons.bookmark_border,
+            isBookmark ? Icons.bookmark : Icons.bookmark_border,
             color: Colors.white,
           ),
         );
