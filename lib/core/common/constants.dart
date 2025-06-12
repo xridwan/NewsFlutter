@@ -5,4 +5,5 @@ abstract class Constants {
   static String topHeadline = 'top-headlines';
   static String cacheSources = 'sources_cache';
   static String cacheArticles = 'articles_cache';
+  static String notificationKey = 'daily_notification';
 }

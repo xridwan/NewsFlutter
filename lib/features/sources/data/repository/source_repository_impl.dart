@@ -28,15 +28,15 @@ class SourceRepositoryImpl implements SourceRepository {
               cachedSources
                   .map((e) => SourceDto.fromJson(e).toDomain())
                   .toList();
-          return SuccessResult(sources);
+          return Right(sources);
         } else {
-          return FailureResult(failure);
+          return Left(failure);
         }
       },
       (response) async {
         final jsonList = response.map((e) => e.toJson()).toList();
         await _localDataSource.cachedSources(Constants.cacheSources, jsonList);
-        return SuccessResult(response.map((e) => e.toDomain()).toList());
+        return Right(response.map((e) => e.toDomain()).toList());
       },
     );
   }

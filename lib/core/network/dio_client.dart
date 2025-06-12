@@ -15,11 +15,11 @@ class DioClient {
   }) async {
     try {
       final response = await _dio.get(path, queryParameters: queryParam);
-      return SuccessResult(response);
+      return Right(response);
     } on DioException catch (e) {
-      return FailureResult(handleDioError(e));
+      return Left(handleDioError(e));
     } catch (e) {
-      return FailureResult(ServerFailure(e.toString()));
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

@@ -1,36 +1,27 @@
-sealed class Result<SuccessData, ErrorType> {
+sealed class Result<S, F> {
   const Result();
 
-  ReturnType fold<ReturnType>(
-    ReturnType Function(ErrorType error) onFailure,
-    ReturnType Function(SuccessData data) onSuccess,
-  );
+  R fold<R>(R Function(F error) onFailure, R Function(S data) onSuccess);
 }
 
-final class SuccessResult<SuccessData> extends Result<SuccessData, Never> {
-  final SuccessData data;
+final class Right<S> extends Result<S, Never> {
+  final S data;
 
-  const SuccessResult(this.data);
+  const Right(this.data);
 
   @override
-  ReturnType fold<ReturnType>(
-    ReturnType Function(Never error) onFailure,
-    ReturnType Function(SuccessData data) onSuccess,
-  ) {
+  R fold<R>(R Function(Never error) onFailure, R Function(S data) onSuccess) {
     return onSuccess(data);
   }
 }
 
-final class FailureResult<ErrorType> extends Result<Never, ErrorType> {
-  final ErrorType error;
+final class Left<F> extends Result<Never, F> {
+  final F error;
 
-  const FailureResult(this.error);
+  const Left(this.error);
 
   @override
-  ReturnType fold<ReturnType>(
-    ReturnType Function(ErrorType error) onFailure,
-    ReturnType Function(Never data) onSuccess,
-  ) {
+  R fold<R>(R Function(F error) onFailure, R Function(Never data) onSuccess) {
     return onFailure(error);
   }
 }

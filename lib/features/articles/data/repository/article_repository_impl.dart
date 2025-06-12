@@ -27,15 +27,15 @@ class ArticleRepositoryImpl implements ArticleRepository {
         if (cachedArticles.isNotEmpty) {
           final articles =
               cachedArticles.map((e) => Article.fromJson(e)).toList();
-          return SuccessResult(articles);
+          return Right(articles);
         } else {
-          return FailureResult(failure);
+          return Left(failure);
         }
       },
       (response) async {
         final jsonList = response.map((e) => e.toJson()).toList();
         await _articleLocalDatasource.cachedArticles(sourceId, jsonList);
-        return SuccessResult(response.map((e) => e.toDomain()).toList());
+        return Right(response.map((e) => e.toDomain()).toList());
       },
     );
   }

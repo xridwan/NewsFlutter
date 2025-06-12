@@ -17,17 +17,17 @@ class ArticleRemoteDatasource {
     );
 
     return result.fold(
-      (failure) => FailureResult(failure),
+      (failure) => Left(failure),
       (response) {
         try {
           if (response.statusCode == 200) {
             final data = response.data['articles'] as List;
-            return SuccessResult(data.map((e) => ArticleDto.fromJson(e)).toList());
+            return Right(data.map((e) => ArticleDto.fromJson(e)).toList());
           } else {
-            return FailureResult(ServerFailure('Failed to load articles'));
+            return Left(ServerFailure('Failed to load articles'));
           }
         } catch (e) {
-          return FailureResult(ServerFailure(e.toString()));
+          return Left(ServerFailure(e.toString()));
         }
       }
     );

@@ -16,17 +16,17 @@ class SourceRemoteDatasource {
     );
 
     return result.fold(
-        (failure) => FailureResult(failure),
+        (failure) => Left(failure),
         (response) {
           try {
             if (response.statusCode == 200){
               final data = response.data['sources'] as List;
-              return SuccessResult(data.map((e) => SourceDto.fromJson(e)).toList());
+              return Right(data.map((e) => SourceDto.fromJson(e)).toList());
             } else {
-              return FailureResult(ServerFailure('Failed to load sources'));
+              return Left(ServerFailure('Failed to load sources'));
             }
           } catch (e) {
-            return FailureResult(ServerFailure(e.toString()));
+            return Left(ServerFailure(e.toString()));
           }
         }
     );
