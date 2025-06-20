@@ -32,7 +32,8 @@ class DatabaseHelper {
             author TEXT,
             description TEXT,
             publishedAt TEXT,
-            urlToImage TEXT
+            urlToImage TEXT,
+            sourceId TEXT
           )
         ''');
       },

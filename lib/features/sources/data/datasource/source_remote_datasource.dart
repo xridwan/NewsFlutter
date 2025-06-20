@@ -4,11 +4,18 @@ import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/core/network/dio_client.dart';
 import 'package:news_app/features/sources/data/dto/source_dto.dart';
 
-class SourceRemoteDatasource {
+abstract class SourceRemoteDatasource {
+  const SourceRemoteDatasource();
+
+  Future<Result<List<SourceDto>, Failure>> getSources();
+}
+
+class SourceRemoteDatasourceImpl implements SourceRemoteDatasource {
   final DioClient _dioClient;
 
-  const SourceRemoteDatasource(this._dioClient);
+  const SourceRemoteDatasourceImpl(this._dioClient);
 
+  @override
   Future<Result<List<SourceDto>, Failure>> getSources() async {
     final result = await _dioClient.get(
       Constants.sources,

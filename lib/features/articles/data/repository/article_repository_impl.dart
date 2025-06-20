@@ -1,3 +1,4 @@
+import 'package:news_app/core/common/constants.dart';
 import 'package:news_app/core/common/result.dart';
 import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/core/mapper/data_mapper.dart';
@@ -22,7 +23,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
     return result.fold(
       (failure) async {
         final cachedArticles = await _articleLocalDatasource.getCachedArticles(
-          sourceId,
+          Constants.cacheArticles,
         );
         if (cachedArticles.isNotEmpty) {
           final articles =
@@ -34,8 +35,8 @@ class ArticleRepositoryImpl implements ArticleRepository {
       },
       (response) async {
         final jsonList = response.map((e) => e.toJson()).toList();
-        await _articleLocalDatasource.cachedArticles(sourceId, jsonList);
-        return Right(response.map((e) => e.toDomain()).toList());
+        await _articleLocalDatasource.cachedArticles(Constants.cacheArticles, jsonList);
+        return Right(response.map((e) => e.toDomain(sourceId)).toList());
       },
     );
   }

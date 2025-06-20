@@ -50,12 +50,20 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton(() => DioClient());
 
   // Local Datasource
-  sl.registerLazySingleton(() => SourceLocalDataSource(sl()));
-  sl.registerLazySingleton(() => ArticleLocalDatasource(sl()));
+  sl.registerLazySingleton<SourceLocalDataSource>(
+    () => SourceLocalDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<ArticleLocalDatasource>(
+    () => ArticleLocalDatasourceImpl(sl()),
+  );
 
   // Remote Datasource
-  sl.registerLazySingleton(() => SourceRemoteDatasource(sl()));
-  sl.registerLazySingleton(() => ArticleRemoteDatasource(sl()));
+  sl.registerLazySingleton<SourceRemoteDatasource>(
+    () => SourceRemoteDatasourceImpl(sl()),
+  );
+  sl.registerLazySingleton<ArticleRemoteDatasource>(
+    () => ArticleRemoteDatasourceImpl(sl()),
+  );
   sl.registerLazySingleton(() => BookmarkLocalDatasource(sl()));
 
   // Repository

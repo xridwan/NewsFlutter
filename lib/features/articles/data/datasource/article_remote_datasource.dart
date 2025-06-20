@@ -5,11 +5,18 @@ import 'package:news_app/core/network/dio_client.dart';
 import '../../../../core/common/constants.dart';
 import '../dto/article_dto.dart';
 
-class ArticleRemoteDatasource {
+abstract class ArticleRemoteDatasource {
+  const ArticleRemoteDatasource();
+
+  Future<Result<List<ArticleDto>, Failure>> getArticles(String sourceId);
+}
+
+class ArticleRemoteDatasourceImpl implements ArticleRemoteDatasource {
   final DioClient _dioClient;
 
-  ArticleRemoteDatasource(this._dioClient);
+  ArticleRemoteDatasourceImpl(this._dioClient);
 
+  @override
   Future<Result<List<ArticleDto>, Failure>> getArticles(String sourceId) async {
     final result = await _dioClient.get(
       Constants.topHeadline,

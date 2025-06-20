@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Article extends Equatable {
+  final String sourceId;
   final String author;
   final String title;
   final String description;
@@ -8,6 +9,7 @@ class Article extends Equatable {
   final String urlToImage;
 
   const Article({
+    required this.sourceId,
     required this.author,
     required this.title,
     required this.description,
@@ -17,6 +19,7 @@ class Article extends Equatable {
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
+      sourceId: json['sourceId'] ?? '',
       author: json['author'] ?? '',
       title: json['title'] ?? '',
       description: json['description'] ?? '',
@@ -27,6 +30,7 @@ class Article extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'sourceId': sourceId,
       'author': author,
       'title': title,
       'description': description,
@@ -37,6 +41,7 @@ class Article extends Equatable {
 
   @override
   List<Object?> get props => [
+    sourceId,
     author,
     title,
     description,

@@ -17,8 +17,9 @@ extension SourceDtoMapper on SourceDto {
 }
 
 extension ArticleMapper on ArticleDto {
-  Article toDomain() {
+  Article toDomain(sourceId) {
     return Article(
+      sourceId: sourceId,
       author: author,
       title: title,
       description: description,
@@ -31,6 +32,7 @@ extension ArticleMapper on ArticleDto {
 extension ArticleBookmark on Article {
   Bookmark toBookmark() {
     return Bookmark(
+      sourceId: sourceId,
       author: author,
       title: title,
       description: description,
@@ -43,6 +45,7 @@ extension ArticleBookmark on Article {
 extension BookmarkDtoMapper on BookmarkDto {
   Bookmark toDomain() {
     return Bookmark(
+      sourceId: sourceId,
       author: author,
       title: title,
       description: description,
@@ -55,6 +58,7 @@ extension BookmarkDtoMapper on BookmarkDto {
 extension BookmarkMapper on Bookmark {
   Article toArticle() {
     return Article(
+      sourceId: sourceId,
       author: author,
       title: title,
       description: description,
@@ -65,6 +69,7 @@ extension BookmarkMapper on Bookmark {
 
   BookmarkDto toDto() {
     return BookmarkDto(
+      sourceId: sourceId,
       author: author,
       title: title,
       description: description,
