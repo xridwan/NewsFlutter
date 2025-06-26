@@ -39,47 +39,45 @@ void main() {
 
   final cachedJson = [tArticleDto.toJson()];
 
-  group('get articles data', () {
-    test('returns remote data and caches it', () async {
-      fakeRemoteDatasource.setResponse(Right([tArticleDto]));
-      fakeLocalDatasource.cachedArticles(Constants.cacheArticles, cachedJson);
+  test('returns remote data and caches it', () async {
+    fakeRemoteDatasource.setResponse(Right([tArticleDto]));
+    fakeLocalDatasource.cachedArticles(Constants.cacheArticles, cachedJson);
 
-      final result = await articleRepository.getArticles(sourceId);
+    final result = await articleRepository.getArticles(sourceId);
 
-      expect(result, isA<Right>());
+    expect(result, isA<Right>());
 
-      result.fold(
-        (failure) => fail(failure.message),
-        (success) => expect(success, [tArticle]),
-      );
-    });
+    result.fold(
+      (failure) => fail(failure.message),
+      (success) => expect(success, [tArticle]),
+    );
+  });
 
-    test('returns cached data when remote fails', () async {
-      fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
-      fakeLocalDatasource.cachedArticles(Constants.cacheArticles, cachedJson);
+  test('returns cached data when remote fails', () async {
+    fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
+    fakeLocalDatasource.cachedArticles(Constants.cacheArticles, cachedJson);
 
-      final result = await articleRepository.getArticles(sourceId);
+    final result = await articleRepository.getArticles(sourceId);
 
-      expect(result, isA<Right>());
+    expect(result, isA<Right>());
 
-      result.fold(
-        (failure) => fail(failure.message),
-        (success) => expect(success, [tArticle]),
-      );
-    });
+    result.fold(
+      (failure) => fail(failure.message),
+      (success) => expect(success, [tArticle]),
+    );
+  });
 
-    test('returns failure when remote fails and cache is empty', () async {
-      fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
-      fakeLocalDatasource.cachedArticles(Constants.cacheArticles, []);
+  test('returns failure when remote fails and cache is empty', () async {
+    fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
+    fakeLocalDatasource.cachedArticles(Constants.cacheArticles, []);
 
-      final result = await articleRepository.getArticles(sourceId);
+    final result = await articleRepository.getArticles(sourceId);
 
-      expect(result, isA<Left>());
+    expect(result, isA<Left>());
 
-      result.fold(
-        (failure) => expect(failure, isA<ServerFailure>()),
-        (success) => fail('should not be called'),
-      );
-    });
+    result.fold(
+      (failure) => expect(failure, isA<ServerFailure>()),
+      (success) => fail('should not be called'),
+    );
   });
 }

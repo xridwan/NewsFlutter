@@ -1,7 +1,7 @@
 import 'package:news_app/features/articles/data/datasource/article_local_datasource.dart';
 import 'package:news_app/features/sources/data/datasource/source_local_datasource.dart';
 
-class FakeLocalDatasource implements SourceLocalDataSource {
+class FakeSourceLocalDatasource implements SourceLocalDataSource {
   final Map<String, List<Map<String, dynamic>>> _cache = {};
 
   @override

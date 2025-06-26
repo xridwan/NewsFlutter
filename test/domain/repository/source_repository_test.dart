@@ -13,11 +13,11 @@ import '../../data/datasource/remote/fake_remote_datasource.dart';
 void main() {
   late SourceRepository sourceRepository;
   late FakeSourceRemoteDatasource fakeRemoteDatasource;
-  late FakeLocalDatasource fakeLocalDatasource;
+  late FakeSourceLocalDatasource fakeLocalDatasource;
 
   setUp(() {
     fakeRemoteDatasource = FakeSourceRemoteDatasource();
-    fakeLocalDatasource = FakeLocalDatasource();
+    fakeLocalDatasource = FakeSourceLocalDatasource();
     sourceRepository = SourceRepositoryImpl(
       fakeRemoteDatasource,
       fakeLocalDatasource,
@@ -33,48 +33,46 @@ void main() {
 
   final cachedJson = [tSourceDto.toJson()];
 
-  group('get sources data', () {
-    test('returns remote data and caches it', () async {
-      fakeRemoteDatasource.setResponse(Right([tSourceDto]));
-      fakeLocalDatasource.cachedSources(Constants.cacheSources, cachedJson);
+  test('returns remote data and caches it', () async {
+    fakeRemoteDatasource.setResponse(Right([tSourceDto]));
+    fakeLocalDatasource.cachedSources(Constants.cacheSources, cachedJson);
 
-      final result = await sourceRepository.getSources();
+    final result = await sourceRepository.getSources();
 
-      expect(result, isA<Right>());
+    expect(result, isA<Right>());
 
-      result.fold((failure) => fail(failure.message), (success) {
-        expect(success, [tSource]);
-        print(success);
-      });
+    result.fold((failure) => fail(failure.message), (success) {
+      expect(success, [tSource]);
+      print(success);
     });
+  });
 
-    test('returns cached data when remote fails', () async {
-      fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
-      fakeLocalDatasource.cachedSources(Constants.cacheSources, cachedJson);
+  test('returns cached data when remote fails', () async {
+    fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
+    fakeLocalDatasource.cachedSources(Constants.cacheSources, cachedJson);
 
-      final result = await sourceRepository.getSources();
+    final result = await sourceRepository.getSources();
 
-      expect(result, isA<Right>());
+    expect(result, isA<Right>());
 
-      result.fold((failure) => fail(failure.message), (success) {
-        expect(success, [tSource]);
-        print(success);
-      });
+    result.fold((failure) => fail(failure.message), (success) {
+      expect(success, [tSource]);
+      print(success);
     });
+  });
 
-    test('returns failure when remote fails and cache is empty', () async {
-      fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
-      fakeLocalDatasource.cachedSources(Constants.cacheSources, []);
+  test('returns failure when remote fails and cache is empty', () async {
+    fakeRemoteDatasource.setResponse(Left(ServerFailure('No Internet')));
+    fakeLocalDatasource.cachedSources(Constants.cacheSources, []);
 
-      final result = await sourceRepository.getSources();
+    final result = await sourceRepository.getSources();
 
-      expect(result, isA<Left>());
+    expect(result, isA<Left>());
 
-      result.fold((failure) {
-        expect(failure, isA<ServerFailure>());
-        expect(failure.message, 'No Internet');
-        print(failure.message);
-      }, (success) => fail('should not be called'));
-    });
+    result.fold((failure) {
+      expect(failure, isA<ServerFailure>());
+      expect(failure.message, 'No Internet');
+      print(failure.message);
+    }, (success) => fail('should not be called'));
   });
 }

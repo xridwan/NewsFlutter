@@ -31,4 +31,13 @@ class Utils {
       author: "John Doe",
     ),
   ];
+
+  static const bookmark = Bookmark(
+    title: "Test Article",
+    description: "This is a test article",
+    urlToImage: "https://example.com/image.jpg",
+    publishedAt: "2022-01-01",
+    sourceId: sourceId,
+    author: "John Doe",
+  );
 }

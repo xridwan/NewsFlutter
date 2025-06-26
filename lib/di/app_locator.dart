@@ -64,7 +64,9 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton<ArticleRemoteDatasource>(
     () => ArticleRemoteDatasourceImpl(sl()),
   );
-  sl.registerLazySingleton(() => BookmarkLocalDatasource(sl()));
+  sl.registerLazySingleton<BookmarkLocalDatasource>(
+    () => BookmarkLocalDatasourceImpl(sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<SourceRepository>(
