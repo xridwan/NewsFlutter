@@ -4,7 +4,7 @@ import 'package:news_app/features/bookmark/domain/model/bookmark.dart';
 import 'package:news_app/features/bookmark/domain/usecase/get_bookmarks_usecase.dart';
 
 import '../../common/Utils.dart';
-import '../../data/repository/fake_repository.dart';
+import '../../helper/fake_repository.dart';
 
 void main() {
   late FakeBookmarkRepository fakeRepository;
@@ -157,9 +157,7 @@ void main() {
       () async {
         fakeRepository.setBookmarks(Utils.bookmarks);
 
-        await RemoveBookmarkUseCase(
-          fakeRepository,
-        ).call('Android');
+        await RemoveBookmarkUseCase(fakeRepository).call('Android');
 
         final bookmarks = await getBookmarksUseCase(NoParams());
 

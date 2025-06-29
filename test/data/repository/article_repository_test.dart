@@ -7,8 +7,8 @@ import 'package:news_app/features/articles/data/dto/article_dto.dart';
 import 'package:news_app/features/articles/data/repository/article_repository_impl.dart';
 import 'package:news_app/features/articles/domain/repository/article_repository.dart';
 
-import '../../data/datasource/local/fake_local_datasource.dart';
-import '../../data/datasource/remote/fake_remote_datasource.dart';
+import '../../helper/fake_local_datasource.dart';
+import '../../helper/fake_remote_datasource.dart';
 
 void main() {
   late ArticleRepository articleRepository;

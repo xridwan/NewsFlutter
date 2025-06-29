@@ -4,7 +4,7 @@ import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/features/articles/domain/usecase/get_article_usecase.dart';
 
 import '../../common/Utils.dart';
-import '../../data/repository/fake_repository.dart';
+import '../../helper/fake_repository.dart';
 
 void main() {
   late FakeArticleRepository fakeRepository;
@@ -15,17 +15,20 @@ void main() {
     getArticleUseCase = GetArticleUseCase(fakeRepository);
   });
 
-  test('should return list of articles when repository returns Right', () async {
-    fakeRepository.setResponse(Right(Utils.dummyArticles));
+  test(
+    'should return list of articles when repository returns Right',
+    () async {
+      fakeRepository.setResponse(Right(Utils.dummyArticles));
 
-    final result = await getArticleUseCase(Utils.sourceId);
+      final result = await getArticleUseCase(Utils.sourceId);
 
-    expect(result, isA<Right>());
-    result.fold(
-      (failure) => fail('Expected success but got failure'),
-      (success) => expect(success, equals(Utils.dummyArticles)),
-    );
-  });
+      expect(result, isA<Right>());
+      result.fold(
+        (failure) => fail('Expected success but got failure'),
+        (success) => expect(success, equals(Utils.dummyArticles)),
+      );
+    },
+  );
 
   test('should return a failure when repository throws an exception', () async {
     const failure = ServerFailure('Failed to load articles');

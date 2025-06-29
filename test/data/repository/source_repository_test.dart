@@ -7,8 +7,8 @@ import 'package:news_app/features/sources/data/dto/source_dto.dart';
 import 'package:news_app/features/sources/data/repository/source_repository_impl.dart';
 import 'package:news_app/features/sources/domain/repository/source_repository.dart';
 
-import '../../data/datasource/local/fake_local_datasource.dart';
-import '../../data/datasource/remote/fake_remote_datasource.dart';
+import '../../helper/fake_local_datasource.dart';
+import '../../helper/fake_remote_datasource.dart';
 
 void main() {
   late SourceRepository sourceRepository;

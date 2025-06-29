@@ -3,7 +3,7 @@ import 'package:news_app/features/bookmark/data/repository/bookmark_repository_i
 import 'package:news_app/features/bookmark/domain/repository/bookmark_repository.dart';
 
 import '../../common/Utils.dart';
-import '../../data/datasource/local/fake_bookmark_datasource.dart';
+import '../../helper/fake_bookmark_datasource.dart';
 
 void main() {
   late FakeBookmarkDatasource fakeBookmarkDatasource;

@@ -5,7 +5,7 @@ import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/features/sources/domain/usecase/get_source_usecase.dart';
 
 import '../../common/Utils.dart';
-import '../../data/repository/fake_repository.dart';
+import '../../helper/fake_repository.dart';
 
 void main() {
   late FakeSourceRepository fakeRepository;
