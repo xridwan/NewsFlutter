@@ -55,41 +55,40 @@ class _SourcePageState extends State<SourcePage> {
                 transitionBuilder: (child, animation) {
                   return SizeTransition(sizeFactor: animation, child: child);
                 },
-                child:
-                    isVisible
-                        ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: TextField(
-                            controller: _searchController,
-                            onChanged: (value) async {
-                              context.read<SourceBloc>().add(
-                                SearchSources(_searchController.text),
-                              );
-                            },
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black87,
+                child: isVisible
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (value) async {
+                            context.read<SourceBloc>().add(
+                              SearchSources(_searchController.text),
+                            );
+                          },
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black87,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Searching...',
+                            prefixIcon: Icon(Icons.search),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                context.read<SourceBloc>().add(
+                                  SearchSources(''),
+                                );
+                              },
                             ),
-                            decoration: InputDecoration(
-                              hintText: 'Searching...',
-                              prefixIcon: Icon(Icons.search),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {
-                                  _searchController.clear();
-                                  context.read<SourceBloc>().add(
-                                    SearchSources(''),
-                                  );
-                                },
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(2),
                             ),
                           ),
-                        )
-                        : const SizedBox(),
+                        ),
+                      )
+                    : const SizedBox(),
               );
             },
           ),
@@ -98,44 +97,48 @@ class _SourcePageState extends State<SourcePage> {
               onRefresh: () async {
                 context.read<SourceBloc>().add(GetSources());
               },
-              child: BlocBuilder<SourceBloc, SourceState>(
-                builder: (context, state) {
-                  if (state is SourceLoading) {
-                    return LoadingWidget();
-                  } else if (state is SourceLoaded) {
-                    if (state.sources.isEmpty) {
-                      return const EmptyDataWidget(message: 'Data is Empty');
-                    } else {
-                      return ListView.builder(
-                        itemCount: state.sources.length,
-                        itemBuilder: (context, index) {
-                          final source = state.sources[index];
-                          return SourceItemWidget(
-                            source: source,
-                            navigateToArticle: () {
-                              context.push(
-                                NavigationRoute.articlePage,
-                                extra: {
-                                  'id': source.id,
-                                  'name': source.name,
-                                  'desc': source.description,
-                                },
-                              );
-                            },
-                          );
-                        },
-                      );
-                    }
-                  } else if (state is SourceError) {
-                    return EmptyDataWidget(message: state.message);
-                  }
-                  return const SizedBox();
-                },
-              ),
+              child: _buildSourceList(context),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSourceList(BuildContext context) {
+    return BlocBuilder<SourceBloc, SourceState>(
+      builder: (context, state) {
+        if (state is SourceLoading) {
+          return LoadingWidget();
+        } else if (state is SourceLoaded) {
+          if (state.sources.isEmpty) {
+            return const EmptyDataWidget(message: 'Data is Empty');
+          } else {
+            return ListView.builder(
+              itemCount: state.sources.length,
+              itemBuilder: (context, index) {
+                final source = state.sources[index];
+                return SourceItemWidget(
+                  source: source,
+                  navigateToArticle: () {
+                    context.push(
+                      NavigationRoute.articlePage,
+                      extra: {
+                        'id': source.id,
+                        'name': source.name,
+                        'desc': source.description,
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          }
+        } else if (state is SourceError) {
+          return EmptyDataWidget(message: state.message);
+        }
+        return const SizedBox();
+      },
     );
   }
 }

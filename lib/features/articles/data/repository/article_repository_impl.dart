@@ -2,6 +2,7 @@ import 'package:news_app/core/common/constants.dart';
 import 'package:news_app/core/common/result.dart';
 import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/core/mapper/data_mapper.dart';
+import 'package:news_app/features/articles/data/dto/article_dto.dart';
 import 'package:news_app/features/articles/domain/repository/article_repository.dart';
 
 import '../../domain/model/article.dart';
@@ -27,7 +28,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
         );
         if (cachedArticles.isNotEmpty) {
           final articles =
-              cachedArticles.map((e) => Article.fromJson(e)).toList();
+              cachedArticles.map((e) => ArticleDto.fromJson(e)).toList();
           return Right(articles);
         } else {
           return Left(failure);

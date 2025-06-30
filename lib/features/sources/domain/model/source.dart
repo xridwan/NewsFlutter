@@ -11,18 +11,6 @@ class Source extends Equatable {
     required this.description,
   });
 
-  factory Source.fromJson(Map<String, dynamic> json) {
-    return Source(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'description': description};
-  }
-
   @override
   List<Object?> get props => [id, name, description];
 }

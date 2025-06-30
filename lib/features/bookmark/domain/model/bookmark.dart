@@ -17,28 +17,6 @@ class Bookmark extends Equatable {
     required this.urlToImage,
   });
 
-  factory Bookmark.fromJson(Map<String, dynamic> json) {
-    return Bookmark(
-      sourceId: json['sourceId'] ?? '',
-      author: json['author'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      publishedAt: json['publishedAt'] ?? '',
-      urlToImage: json['urlToImage'] ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'sourceId': sourceId,
-      'author': author,
-      'title': title,
-      'description': description,
-      'publishedAt': publishedAt,
-      'urlToImage': urlToImage,
-    };
-  }
-
   @override
   List<Object?> get props => [
     sourceId,

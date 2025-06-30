@@ -1,14 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:news_app/features/sources/domain/model/source.dart';
 
-class SourceDto extends Equatable {
-  final String id;
-  final String name;
-  final String description;
-
+class SourceDto extends Source {
   const SourceDto({
-    required this.id,
-    required this.name,
-    required this.description,
+    required super.id,
+    required super.name,
+    required super.description,
   });
 
   factory SourceDto.fromJson(Map<String, dynamic> json) {
@@ -22,7 +18,4 @@ class SourceDto extends Equatable {
   Map<String, dynamic> toJson() {
     return {'id': id, 'name': name, 'description': description};
   }
-
-  @override
-  List<Object?> get props => [id, name, description];
 }

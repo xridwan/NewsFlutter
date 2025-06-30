@@ -1,20 +1,13 @@
-import 'package:equatable/equatable.dart';
+import 'package:news_app/features/articles/domain/model/article.dart';
 
-class ArticleDto extends Equatable {
-  final String sourceId;
-  final String author;
-  final String title;
-  final String description;
-  final String publishedAt;
-  final String urlToImage;
-
+class ArticleDto extends Article {
   const ArticleDto({
-    required this.sourceId,
-    required this.author,
-    required this.title,
-    required this.description,
-    required this.publishedAt,
-    required this.urlToImage,
+    required super.sourceId,
+    required super.author,
+    required super.title,
+    required super.description,
+    required super.publishedAt,
+    required super.urlToImage,
   });
 
   factory ArticleDto.fromJson(Map<String, dynamic> json) {
@@ -38,14 +31,4 @@ class ArticleDto extends Equatable {
       'urlToImage': urlToImage,
     };
   }
-
-  @override
-  List<Object?> get props => [
-    sourceId,
-    author,
-    title,
-    description,
-    publishedAt,
-    urlToImage,
-  ];
 }

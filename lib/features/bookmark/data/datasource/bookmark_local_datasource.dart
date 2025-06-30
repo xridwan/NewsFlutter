@@ -19,7 +19,7 @@ class BookmarkLocalDatasourceImpl implements BookmarkLocalDatasource {
   Future<List<BookmarkDto>> getBookmarks() async {
     final db = await _helper.database;
     final List<Map<String, dynamic>> result = await db.query(_helper.tableName);
-    return result.map((e) => BookmarkDto.fromJson(e)).toList();
+    return result.map((bookmark) => BookmarkDto.fromJson(bookmark)).toList();
   }
 
   @override

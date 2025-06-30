@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/router/app_router.dart';
-import 'package:news_app/di/app_locator.dart';
+import 'package:news_app/di/injection.dart';
 import 'package:news_app/features/settings/presentation/bloc/notification_event.dart';
 
 import 'core/notification/notification_service.dart';

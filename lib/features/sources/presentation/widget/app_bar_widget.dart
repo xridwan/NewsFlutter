@@ -17,7 +17,7 @@ class AppBarWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 16, // Untuk status bar
+        top: MediaQuery.of(context).padding.top + 16,
         bottom: 18,
         left: 18,
         right: 18,
