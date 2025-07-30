@@ -23,13 +23,15 @@ Failure handleDioError(DioException e) {
 
   switch (e.type) {
     case DioExceptionType.connectionTimeout:
-      return NetworkFailure("Connection timeout - Check your internet connection");
+      return NetworkFailure(
+        "Connection timeout - Check your internet connection",
+      );
     case DioExceptionType.sendTimeout:
       return NetworkFailure("Send timeout - Request time out");
     case DioExceptionType.receiveTimeout:
       return NetworkFailure("Receive timeout - Response time out");
     case DioExceptionType.badCertificate:
-      return NetworkFailure("Invalid SSL Sertificate");
+      return NetworkFailure("Invalid SSL Certificate");
     case DioExceptionType.badResponse:
       return ServerFailure("Bad response - Data Invalid");
     case DioExceptionType.cancel:
